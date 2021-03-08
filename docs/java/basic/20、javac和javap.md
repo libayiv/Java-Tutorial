@@ -125,48 +125,48 @@ java提供了JavaCompiler，我们可以通过它来编译java源文件为class�
             task.call();
 
 
-​    
-​            // 通过反射得到对象
-​    //        Class clazz = Class.forName("com.tommy.core.test.reflect.Test");
-​            // 使用自定义的类加载器加载class
-​            Class clazz = new MyClassLoader(baseOutputDir).loadClass("com.tommy.core.test.reflect.Test");
-​            // 得到构造器
-​            Constructor constructor = clazz.getConstructor(String.class);
-​            // 通过构造器new一个对象
-​            Object test = constructor.newInstance("jack.tsing");
-​            // 得到sayHello方法
-​            Method method = clazz.getMethod("sayHello", String.class);
-​            // 调用sayHello方法
-​            String result = (String) method.invoke(test, "jack.ma");
-​            System.out.println(result);
-​        }
-​    }
+    
+            // 通过反射得到对象
+    //        Class clazz = Class.forName("com.tommy.core.test.reflect.Test");
+            // 使用自定义的类加载器加载class
+            Class clazz = new MyClassLoader(baseOutputDir).loadClass("com.tommy.core.test.reflect.Test");
+            // 得到构造器
+            Constructor constructor = clazz.getConstructor(String.class);
+            // 通过构造器new一个对象
+            Object test = constructor.newInstance("jack.tsing");
+            // 得到sayHello方法
+            Method method = clazz.getMethod("sayHello", String.class);
+            // 调用sayHello方法
+            String result = (String) method.invoke(test, "jack.ma");
+            System.out.println(result);
+        }
+    }
 
 自定义类加载器代码：
 
 
-​    
-​    public class MyClassLoader extends ClassLoader {
-​        private String baseDir;
-​        public MyClassLoader(String baseDir) {
-​            this.baseDir = baseDir;
-​        }
-​        @Override
-​        protected Class<?> findClass(String name) throws ClassNotFoundException {
-​            String fullClassFilePath = this.baseDir + name.replace("\\.","/") + ".class";
-​            File classFilePath = new File(fullClassFilePath);
-​            if (classFilePath.exists()) {
-​                FileInputStream fileInputStream = null;
-​                ByteArrayOutputStream byteArrayOutputStream = null;
-​                try {
-​                    fileInputStream = new FileInputStream(classFilePath);
-​                    byte[] data = new byte[1024];
-​                    int len = -1;
-​                    byteArrayOutputStream = new ByteArrayOutputStream();
-​                    while ((len = fileInputStream.read(data)) != -1) {
-​                        byteArrayOutputStream.write(data,0,len);
-​                    }
-​    
+    
+    public class MyClassLoader extends ClassLoader {
+        private String baseDir;
+        public MyClassLoader(String baseDir) {
+            this.baseDir = baseDir;
+        }
+        @Override
+        protected Class<?> findClass(String name) throws ClassNotFoundException {
+            String fullClassFilePath = this.baseDir + name.replace("\\.","/") + ".class";
+            File classFilePath = new File(fullClassFilePath);
+            if (classFilePath.exists()) {
+                FileInputStream fileInputStream = null;
+                ByteArrayOutputStream byteArrayOutputStream = null;
+                try {
+                    fileInputStream = new FileInputStream(classFilePath);
+                    byte[] data = new byte[1024];
+                    int len = -1;
+                    byteArrayOutputStream = new ByteArrayOutputStream();
+                    while ((len = fileInputStream.read(data)) != -1) {
+                        byteArrayOutputStream.write(data,0,len);
+                    }
+    
                     return defineClass(name,byteArrayOutputStream.toByteArray(),0,byteArrayOutputStream.size());
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -403,15 +403,15 @@ Xml代码
     }
 
 
-​    
-​    
-​    public class B
-​    {
-​        public void print()
-​        {
-​            System.out.println("old");
-​        }
-​    }
+    
+    
+    public class B
+    {
+        public void print()
+        {
+            System.out.println("old");
+        }
+    }
 
 
 目录结构如下：
@@ -451,19 +451,19 @@ sourcepath          //此处为当前目录
 这里我用来实现一下这个功能，假设项目名称为project，此目录为当前目录，且在src/com目录中有一个Main.java文件。‘
 
 
-​    
-​    package com;
-​    public class Main
-​    {
-​        public static void main(String[] args) {
-​            System.out.println("Hello");
-​        }
-​    }
+    
+    package com;
+    public class Main
+    {
+        public static void main(String[] args) {
+            System.out.println("Hello");
+        }
+    }
 
 
-​    
-​    
-​    javac -d bin src/com/Main.java
+    
+    
+    javac -d bin src/com/Main.java
 
 上面的语句将Main.class生成在bin/com目录下。
 
@@ -487,8 +487,8 @@ sourcepath          //此处为当前目录
     如果使用：
 
 
-​    
-​     javac -implicit:none A.java
+    
+     javac -implicit:none A.java
 
 则不会生成 B.class。
 
